@@ -1,0 +1,30 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-title">排球办赛助手</view>
+    <view class="hero-sub">从发规程到出成绩 · AI 办赛工作台</view>
+    <view class="hero-actions">
+      <view class="hero-btn" bindtap="goCreate">＋ 开始办赛</view>
+      <view class="hero-btn ghost" bindtap="goChat">问 AI 客服</view>
+    </view>
+  </view>
+
+  <view wx:if="{{myEvents.length}}">
+    <view class="section-title">我的赛事</view>
+    <view
+      class="card event-item"
+      wx:for="{{myEvents}}"
+      wx:key="_id"
+      data-id="{{item._id}}"
+      bindtap="goDetail"
+    >
+      <view class="event-name">{{item.name}}</view>
+      <view class="event-meta">{{item.statusText}} · {{item.teamCount || 0}} 队 · {{item.ballName}}</view>
+    </view>
+  </view>
+
+  <view class="empty" wx:else>
+    <view class="empty-title">还没有赛事</view>
+    <view class="empty-sub">点「开始办赛」，5 分钟搭好一场球赛</view>
+    <view class="empty-btn" bindtap="goCreate">去办赛</view>
+  </view>
+</view>

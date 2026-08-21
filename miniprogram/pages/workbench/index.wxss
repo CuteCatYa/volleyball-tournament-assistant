@@ -1,0 +1,92 @@
+.page {
+  padding-bottom: 40rpx;
+}
+
+.head {
+  padding: 24rpx;
+}
+
+.head-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.new-btn,
+.dash-btn {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.new-btn {
+  background: #2f54eb;
+  color: #fff;
+}
+
+.dash-btn {
+  background: #fff;
+  color: #2f54eb;
+  border: 1rpx solid #d6ddff;
+}
+
+.section-title {
+  margin: 24rpx 24rpx 8rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-top: 16rpx;
+}
+
+.step-idx {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 50%;
+  background: #eef1ff;
+  color: #2f54eb;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  flex-shrink: 0;
+}
+
+.step-body {
+  flex: 1;
+}
+
+.step-name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.step-desc {
+  font-size: 24rpx;
+}
+
+.step-arrow {
+  font-size: 40rpx;
+  font-weight: 300;
+}
+
+.event-item {
+  margin-top: 16rpx;
+}
+
+.event-name {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.event-meta {
+  margin-top: 6rpx;
+  font-size: 24rpx;
+}

@@ -1,0 +1,41 @@
+<view class="page">
+  <block wx:if="{{loading}}">
+    <view class="loading">加载中…</view>
+  </block>
+
+  <block wx:elif="{{loadError}}">
+    <view class="loading">{{loadError}}</view>
+  </block>
+
+  <block wx:elif="{{event}}">
+    <!-- 赛事头部 -->
+    <view class="head card">
+      <view class="head-top">
+        <view class="head-name">{{event.name}}</view>
+        <view class="head-status">{{event.statusText}}</view>
+      </view>
+      <view class="head-meta">{{event.ballText}} · {{configText}}</view>
+      <view class="head-created">{{createdText}}</view>
+    </view>
+
+    <!-- 模块入口 -->
+    <view class="grid">
+      <view
+        class="module"
+        wx:for="{{modules}}"
+        wx:key="key"
+        data-url="{{item.url}}"
+        bindtap="goModule"
+      >
+        <view class="module-icon">{{item.icon}}</view>
+        <view class="module-name">{{item.name}}</view>
+      </view>
+      <view class="module" bindtap="goChat">
+        <view class="module-icon">🤖</view>
+        <view class="module-name">AI 问答</view>
+      </view>
+    </view>
+
+    <button class="share" open-type="share">分享赛事主页</button>
+  </block>
+</view>

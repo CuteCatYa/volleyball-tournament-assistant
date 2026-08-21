@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">报名审核</view>
+  <view class="stub-desc">批量通过/驳回 + AI 预审建议 + 驳回话术（PRD F3.7）。</view>
+</view>

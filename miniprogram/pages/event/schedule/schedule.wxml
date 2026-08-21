@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">赛程</view>
+  <view class="stub-desc">场地/队伍/轮次三视图赛程（PRD F5.6）。</view>
+</view>

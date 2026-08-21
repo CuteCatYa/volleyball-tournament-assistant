@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">规程编辑器</view>
+  <view class="stub-desc">富文本分章节编辑 + AI 局部改写（PRD F2.3）。</view>
+</view>

@@ -1,0 +1,59 @@
+/* ===== 设计令牌（主题变量）===== */
+page {
+  --brand: #2f54eb;
+  --brand-dark: #1d39c4;
+  --success: #52c41a;
+  --warning: #faad14;
+  --danger: #f5222d;
+  --text: #1f2329;
+  --text-2: #5f6572;
+  --text-3: #8a8f99;
+  --bg: #f5f6fa;
+  --card: #ffffff;
+  --line: #ebeef5;
+  --radius: 16rpx;
+  --font-base: 28rpx;
+
+  background: var(--bg);
+  color: var(--text);
+  font-size: var(--font-base);
+  line-height: 1.6;
+}
+
+/* ===== 通用 ===== */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(31, 35, 41, 0.04);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx;
+  background: var(--card);
+  border-bottom: 1rpx solid var(--line);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+  border-radius: 999rpx;
+  font-size: 30rpx;
+  padding: 16rpx 40rpx;
+  text-align: center;
+}
+
+.text-2 { color: var(--text-2); }
+.text-3 { color: var(--text-3); }
+
+/* 大字号模式（适老，全局开关 class 挂到 page 根节点） */
+.font-large {
+  font-size: 34rpx !important;
+}
+.font-large .btn-primary {
+  font-size: 36rpx;
+}

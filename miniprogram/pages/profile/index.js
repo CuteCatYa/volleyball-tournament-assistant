@@ -1,0 +1,34 @@
+const store = require('../../store/index');
+const cloud = require('../../services/cloud');
+
+Page({
+  data: {
+    openid: '',
+    phone: '',
+  },
+
+  onShow() {
+    this.setData({ openid: store.get('openid') });
+  },
+
+  async getPhone(e) {
+    const { code } = e.detail;
+    if (!code) return;
+    try {
+      const data = await cloud.bindPhone(code);
+      this.setData({ phone: data.phone });
+      wx.showToast({ title: '手机号已绑定', icon: 'success' });
+    } catch (err) {
+      wx.showToast({ title: err.message || '绑定失败', icon: 'none' });
+    }
+  },
+
+  goMyEvents() {
+    wx.switchTab({ url: '/pages/index/index' });
+  },
+
+  toggleFont() {
+    // 适老大字号：切换全局 body class 由 page 根节点承载（演示占位）
+    wx.showToast({ title: '大字号模式（P1 完善）', icon: 'none' });
+  },
+});

@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/workbench/index",
+    "pages/message/index",
+    "pages/profile/index",
+    "pages/event/detail/detail",
+    "pages/event/notice/notice",
+    "pages/event/register/register",
+    "pages/event/draw/draw",
+    "pages/event/schedule/schedule",
+    "pages/event/orderbook/orderbook",
+    "pages/event/standings/standings",
+    "pages/event/announcement/announcement",
+    "pages/workbench/create/create",
+    "pages/workbench/regulation/regulation",
+    "pages/workbench/review/review",
+    "pages/workbench/draw-tool/draw-tool",
+    "pages/workbench/schedule-editor/schedule-editor",
+    "pages/workbench/orderbook-gen/orderbook-gen",
+    "pages/workbench/dashboard/dashboard",
+    "pages/common/chat/chat",
+    "pages/common/share/share",
+    "pages/common/login/login"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#2f54eb",
+    "navigationBarTitleText": "排球办赛助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f6fa"
+  },
+  "tabBar": {
+    "color": "#8a8f99",
+    "selectedColor": "#2f54eb",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "首页" },
+      { "pagePath": "pages/workbench/index", "text": "办赛" },
+      { "pagePath": "pages/message/index", "text": "消息" },
+      { "pagePath": "pages/profile/index", "text": "我的" }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,94 @@
+<view class="page">
+  <view class="tip">用一句话描述赛事，AI 解析出队数、球种、赛制、场地与名次，生成框架草稿卡。</view>
+
+  <view class="chips">
+    <view
+      class="chip"
+      wx:for="{{chips}}"
+      wx:key="*this"
+      data-text="{{item}}"
+      bindtap="pickChip"
+    >{{item}}</view>
+  </view>
+
+  <view class="input-box">
+    <textarea
+      class="input"
+      value="{{input}}"
+      bindinput="onInput"
+      placeholder="例如：12 支队伍的气排球比赛，两天，两个场地，取前四名"
+      maxlength="200"
+    />
+    <view class="submit" bindtap="onSubmit">{{loading ? '解析中…' : 'AI 解析'}}</view>
+  </view>
+
+  <!-- 调用失败提示 -->
+  <view class="result card" wx:if="{{result && result.hint}}">
+    <view class="result-text">{{result.hint}}</view>
+  </view>
+
+  <!-- 草稿卡：可编辑 + 确认创建 -->
+  <view class="card" wx:if="{{draft}}">
+    <view class="result-title">赛事框架草稿</view>
+    <view class="ai-flag" wx:if="{{result}}">
+      {{result.aiFlag ? '✨ AI 生成，请人工核对后确认' : '本地解析（离线降级，可直接编辑）'}}
+    </view>
+
+    <view class="form">
+      <view class="form-row">
+        <view class="form-label">赛事名称</view>
+        <input class="form-input" value="{{draft.name}}" data-field="name" bindinput="onDraftInput" placeholder="可留空，自动生成" />
+      </view>
+      <view class="form-row">
+        <view class="form-label">球种</view>
+        <picker mode="selector" range="{{ballTypes}}" range-key="label" bindchange="onBallType">
+          <view class="form-picker">{{ballLabel}} ▾</view>
+        </picker>
+      </view>
+      <view class="form-row">
+        <view class="form-label">队伍数 *</view>
+        <input class="form-input" type="number" value="{{draft.teams}}" data-field="teams" bindinput="onDraftInput" placeholder="例如 12" />
+      </view>
+      <view class="form-row">
+        <view class="form-label">赛制</view>
+        <picker mode="selector" range="{{modes}}" bindchange="onMode">
+          <view class="form-picker">{{draft.mode || '请选择'}} ▾</view>
+        </picker>
+      </view>
+      <view class="form-row">
+        <view class="form-label">局制</view>
+        <picker mode="selector" range="{{bestOfs}}" range-key="label" bindchange="onBestOf">
+          <view class="form-picker">{{draft.bestOf === 5 ? '五局三胜' : '三局两胜'}} ▾</view>
+        </picker>
+      </view>
+      <view class="form-row">
+        <view class="form-label">天数</view>
+        <input class="form-input" type="number" value="{{draft.days}}" data-field="days" bindinput="onDraftInput" placeholder="选填" />
+      </view>
+      <view class="form-row">
+        <view class="form-label">场地数</view>
+        <input class="form-input" type="number" value="{{draft.courts}}" data-field="courts" bindinput="onDraftInput" placeholder="选填" />
+      </view>
+      <view class="form-row">
+        <view class="form-label">取前 N 名</view>
+        <input class="form-input" type="number" value="{{draft.top}}" data-field="top" bindinput="onDraftInput" placeholder="选填" />
+      </view>
+    </view>
+
+    <view class="summary" wx:if="{{result && result.summary}}">{{result.summary}}</view>
+    <button class="confirm" bindtap="confirmCreate" disabled="{{creating}}">
+      {{creating ? '创建中…' : '确认创建赛事'}}
+    </button>
+  </view>
+
+  <view class="modes">
+    <view class="mode card" bindtap="goTemplate">
+      <view class="mode-name">模板创建</view>
+      <view class="mode-desc">从上届赛事 / 官方模板一键复制</view>
+    </view>
+    <view class="mode card" bindtap="goBlank">
+      <view class="mode-name">空白创建</view>
+      <view class="mode-desc">手动填写基础配置</view>
+    </view>
+  </view>
+</view>

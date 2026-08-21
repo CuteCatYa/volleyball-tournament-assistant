@@ -1,0 +1,65 @@
+.chat {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.msgs {
+  flex: 1;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.msg {
+  display: flex;
+  margin-bottom: 24rpx;
+}
+
+.msg.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 76%;
+  padding: 20rpx 28rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.msg.ai .bubble {
+  background: #fff;
+  color: #1f2329;
+}
+
+.msg.user .bubble {
+  background: #2f54eb;
+  color: #fff;
+  border-bottom-right-radius: 4rpx;
+}
+
+.composer {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 16rpx 24rpx;
+  background: #fff;
+  border-top: 1rpx solid #ebeef5;
+}
+
+.composer-input {
+  flex: 1;
+  background: #f5f6fa;
+  border-radius: 999rpx;
+  padding: 16rpx 28rpx;
+  font-size: 28rpx;
+}
+
+.composer-send {
+  background: #2f54eb;
+  color: #fff;
+  padding: 16rpx 36rpx;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+}

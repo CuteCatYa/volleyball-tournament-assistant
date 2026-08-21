@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">分享海报</view>
+  <view class="stub-desc">生成带小程序码的海报（PRD F3.3/F6.5）。</view>
+</view>

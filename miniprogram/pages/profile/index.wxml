@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="profile card">
+    <view class="avatar">🏐</view>
+    <view class="profile-body">
+      <view class="profile-name">排球办赛助手</view>
+      <view class="profile-id">openid: {{openid || '未登录'}}</view>
+    </view>
+    <button class="phone-btn" open-type="getPhoneNumber" bindgetphonenumber="getPhone" wx:if="{{!phone}}">
+      绑定手机号
+    </button>
+    <view class="phone-text" wx:else>{{phone}}</view>
+  </view>
+
+  <view class="menu">
+    <view class="cell" bindtap="goMyEvents">
+      <view>我的赛事</view>
+      <view class="arrow">›</view>
+    </view>
+    <view class="cell" bindtap="toggleFont">
+      <view>大字号模式</view>
+      <view class="arrow">›</view>
+    </view>
+    <view class="cell">
+      <view>关于</view>
+      <view class="arrow">›</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">数据看板</view>
+  <view class="stub-desc">报名看板 + 办赛流水线进度（PRD F11）。</view>
+</view>

@@ -1,0 +1,82 @@
+.page {
+  padding: 24rpx;
+}
+
+.loading {
+  padding: 120rpx 0;
+  text-align: center;
+  color: #8a8f99;
+  font-size: 28rpx;
+}
+
+.head {
+  margin-bottom: 24rpx;
+}
+
+.head-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.head-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  flex: 1;
+}
+
+.head-status {
+  flex-shrink: 0;
+  margin-left: 16rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 999rpx;
+  background: #eef1ff;
+  color: #2f54eb;
+  font-size: 24rpx;
+}
+
+.head-meta {
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #5f6572;
+  line-height: 1.6;
+}
+
+.head-created {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  color: #b0b4bf;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.module {
+  width: calc(25% - 15rpx);
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 28rpx 8rpx;
+  text-align: center;
+}
+
+.module-icon {
+  font-size: 44rpx;
+}
+
+.module-name {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  color: #3a3f4b;
+}
+
+.share {
+  margin-top: 40rpx;
+  background: #fff;
+  color: #2f54eb;
+  font-size: 28rpx;
+  border-radius: 999rpx;
+}

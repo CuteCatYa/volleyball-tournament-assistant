@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">登录授权</view>
+  <view class="stub-desc">微信授权 + 手机号 + 隐私授权（PRD §6）。</view>
+</view>

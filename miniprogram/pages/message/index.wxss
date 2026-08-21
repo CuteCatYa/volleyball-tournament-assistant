@@ -1,0 +1,76 @@
+.page {
+  padding: 24rpx 0 40rpx;
+}
+
+.chat-entry {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin: 16rpx 24rpx;
+  padding: 28rpx 24rpx;
+  background: linear-gradient(135deg, #2f54eb, #722ed1);
+  border-radius: 20rpx;
+  color: #fff;
+}
+
+.chat-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.chat-body {
+  flex: 1;
+}
+
+.chat-title {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.chat-sub {
+  font-size: 24rpx;
+  opacity: 0.85;
+}
+
+.chat-arrow {
+  font-size: 40rpx;
+  font-weight: 300;
+}
+
+.section-title {
+  margin: 24rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.cell-body {
+  flex: 1;
+}
+
+.cell-title {
+  font-size: 30rpx;
+  font-weight: 600;
+}
+
+.cell-sub {
+  margin-top: 6rpx;
+  font-size: 26rpx;
+}
+
+.cell-time {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+}
+
+.empty {
+  margin-top: 80rpx;
+  text-align: center;
+  font-size: 26rpx;
+}

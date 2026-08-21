@@ -1,0 +1,5 @@
+<view class="stub">
+  <view class="stub-badge">P0 骨架</view>
+  <view class="stub-title">成绩</view>
+  <view class="stub-desc">成绩与积分榜（PRD F8.1）。</view>
+</view>
