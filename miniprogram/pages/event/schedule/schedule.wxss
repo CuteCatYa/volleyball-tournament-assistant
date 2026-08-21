@@ -1,4 +1,8 @@
-.stub { padding: 80rpx 48rpx; text-align: center; }
-.stub-badge { display: inline-block; padding: 8rpx 24rpx; border-radius: 999rpx; background: #eef1ff; color: #2f54eb; font-size: 22rpx; }
-.stub-title { margin-top: 32rpx; font-size: 40rpx; font-weight: 700; }
-.stub-desc { margin-top: 16rpx; font-size: 26rpx; color: #8a8f99; line-height: 1.6; }
+.page { padding: 24rpx; padding-bottom: 80rpx; }
+.empty { text-align: center; color: #b0b4bf; font-size: 26rpx; padding: 80rpx 24rpx; }
+.sec-title { margin: 32rpx 8rpx 8rpx; font-size: 28rpx; font-weight: 600; color: #5f6572; }
+.r-title { font-size: 28rpx; font-weight: 700; margin-bottom: 8rpx; }
+.m { padding: 16rpx 0; border-top: 1rpx solid #f0f1f5; }
+.m:first-child { border-top: none; }
+.m-teams { font-size: 30rpx; font-weight: 600; }
+.m-meta { margin-top: 4rpx; font-size: 22rpx; color: #8a8f99; }

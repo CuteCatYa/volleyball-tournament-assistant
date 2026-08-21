@@ -1,5 +1,16 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">公告</view>
-  <view class="stub-desc">赛事公告列表与详情（PRD F9.2）。</view>
+<view class="page">
+  <view class="card">
+    <view class="sec">发布公告</view>
+    <input class="n-input" value="{{title}}" bindinput="onTitle" placeholder="标题（默认：公告）" />
+    <textarea class="n-ta" value="{{content}}" bindinput="onContent" placeholder="公告内容，例如：请大家明天 8:00 到场馆检录…" />
+    <button class="btn-primary" bindtap="publish">{{submitting ? '发布中…' : '发布公告'}}</button>
+  </view>
+
+  <view class="sec-title">已发布（{{list.length}}）</view>
+  <view class="empty" wx:if="{{!list.length}}">暂无公告</view>
+  <view class="card" wx:for="{{list}}" wx:key="_id">
+    <view class="n-title">{{item.title}}</view>
+    <view class="n-content">{{item.content}}</view>
+    <view class="n-meta">{{item.timeText}}</view>
+  </view>
 </view>

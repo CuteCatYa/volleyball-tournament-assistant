@@ -1,4 +1,10 @@
-.stub { padding: 80rpx 48rpx; text-align: center; }
-.stub-badge { display: inline-block; padding: 8rpx 24rpx; border-radius: 999rpx; background: #eef1ff; color: #2f54eb; font-size: 22rpx; }
-.stub-title { margin-top: 32rpx; font-size: 40rpx; font-weight: 700; }
-.stub-desc { margin-top: 16rpx; font-size: 26rpx; color: #8a8f99; line-height: 1.6; }
+.page { padding: 24rpx; padding-bottom: 80rpx; }
+.r-name { font-size: 34rpx; font-weight: 700; }
+.r-meta { margin-top: 8rpx; font-size: 24rpx; color: #8a8f99; }
+.f-row { display: flex; align-items: center; padding: 20rpx 0; border-bottom: 1rpx solid #f0f1f5; }
+.f-row:last-child { border-bottom: none; }
+.f-label { width: 170rpx; font-size: 28rpx; color: #5f6572; flex-shrink: 0; }
+.f-input { flex: 1; font-size: 28rpx; text-align: right; }
+.btn-primary { margin-top: 24rpx; background: #2f54eb; color: #fff; border-radius: 999rpx; font-size: 30rpx; font-weight: 600; }
+.btn-ghost { margin-top: 16rpx; background: #fff; color: #2f54eb; border: 2rpx solid #2f54eb; border-radius: 999rpx; font-size: 28rpx; }
+.go:disabled { opacity: 0.5; }

@@ -1,4 +1,13 @@
-.stub { padding: 80rpx 48rpx; text-align: center; }
-.stub-badge { display: inline-block; padding: 8rpx 24rpx; border-radius: 999rpx; background: #eef1ff; color: #2f54eb; font-size: 22rpx; }
-.stub-title { margin-top: 32rpx; font-size: 40rpx; font-weight: 700; }
-.stub-desc { margin-top: 16rpx; font-size: 26rpx; color: #8a8f99; line-height: 1.6; }
+.page { padding: 24rpx; padding-bottom: 80rpx; }
+.tabs { white-space: nowrap; padding: 8rpx 0 16rpx; }
+.tab { display: inline-block; padding: 12rpx 32rpx; background: #fff; border-radius: 999rpx; margin-right: 16rpx; font-size: 26rpx; color: #5f6572; }
+.tab-active { background: #2f54eb; color: #fff; }
+.hd { font-size: 22rpx; color: #8a8f99; display: flex; padding-bottom: 12rpx; border-bottom: 1rpx solid #f0f1f5; }
+.row { display: flex; align-items: center; padding: 14rpx 0; border-bottom: 1rpx solid #f7f8fa; font-size: 26rpx; }
+.row-top { background: #f9fbff; }
+.c1 { width: 80rpx; text-align: center; font-weight: 600; }
+.c2 { flex: 1; }
+.c3 { width: 90rpx; text-align: center; color: #5f6572; }
+.bold { color: #2f54eb; font-weight: 700; }
+.empty { text-align: center; color: #b0b4bf; font-size: 26rpx; padding: 80rpx 24rpx; }
+.btn-ghost { margin-top: 32rpx; background: #fff; color: #f5222d; border: 2rpx solid #f5222d; border-radius: 999rpx; font-size: 28rpx; }

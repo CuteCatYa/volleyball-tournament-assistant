@@ -1,5 +1,19 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">规程编辑器</view>
-  <view class="stub-desc">富文本分章节编辑 + AI 局部改写（PRD F2.3）。</view>
+<view class="page" wx:if="{{event}}">
+  <view class="card">
+    <view class="r-name">{{event.name}}</view>
+    <view class="r-meta">{{event.ballText}} · {{event.bestOf === 5 ? '五局三胜' : '三局两胜'}} · 状态：{{event.statusText}}</view>
+  </view>
+
+  <view class="card">
+    <view class="f-row"><view class="f-label">主办单位</view><input class="f-input" value="{{form.organizer}}" data-field="organizer" bindinput="onInput" placeholder="例如：XX 市总工会" /></view>
+    <view class="f-row"><view class="f-label">比赛地点</view><input class="f-input" value="{{form.location}}" data-field="location" bindinput="onInput" placeholder="体育馆名称" /></view>
+    <view class="f-row"><view class="f-label">比赛时间</view><input class="f-input" value="{{form.dates}}" data-field="dates" bindinput="onInput" placeholder="例如：9 月 1-2 日" /></view>
+    <view class="f-row"><view class="f-label">参加办法</view><input class="f-input" value="{{form.eligibility}}" data-field="eligibility" bindinput="onInput" placeholder="报名队伍要求" /></view>
+    <view class="f-row"><view class="f-label">竞赛办法</view><input class="f-input" value="{{form.method}}" data-field="method" bindinput="onInput" placeholder="循环/淘汰、积分规则" /></view>
+    <view class="f-row"><view class="f-label">录取名次</view><input class="f-input" value="{{form.awards}}" data-field="awards" bindinput="onInput" placeholder="例如：取前八名" /></view>
+    <view class="f-row"><view class="f-label">其他说明</view><input class="f-input" value="{{form.others}}" data-field="others" bindinput="onInput" placeholder="补充说明" /></view>
+  </view>
+
+  <button class="btn-primary" bindtap="save">{{saving ? '保存中…' : '保存规程'}}</button>
+  <button class="btn-ghost go" bindtap="goRegister">保存后去报名 →</button>
 </view>

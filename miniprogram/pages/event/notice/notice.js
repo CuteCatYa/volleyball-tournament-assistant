@@ -1,7 +1,15 @@
-// 竞赛规程（P0 骨架，待实现）
+const cloud = require('../../../services/cloud');
+const { formatDateTime } = require('../../../utils/format');
 Page({
-  data: { options: {} },
+  data: { eventId: '', list: [] },
   onLoad(options) {
-    this.setData({ options });
+    this.setData({ eventId: options.eventId || '' });
+    if (options.eventId) this.load();
+  },
+  async load() {
+    try {
+      const res = await cloud.call('notify', 'myNotices', { eventId: this.data.eventId });
+      this.setData({ list: (res.list || []).map((n) => ({ ...n, timeText: formatDateTime(n.createdAt) })) });
+    } catch (e) { /* 静默 */ }
   },
 });

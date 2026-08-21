@@ -1,5 +1,21 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">成绩</view>
-  <view class="stub-desc">成绩与积分榜（PRD F8.1）。</view>
+<view class="page">
+  <scroll-view scroll-x class="tabs">
+    <view class="tab {{activeIdx === index ? 'tab-active' : ''}}" wx:for="{{groups}}" wx:key="group" data-idx="{{index}}" bindtap="onTab">{{item.group}}</view>
+  </scroll-view>
+
+  <view class="card" wx:if="{{groups.length}}">
+    <view class="hd">名次 / 队伍 / 场 / 胜 / 负 / 积分 / 局分比</view>
+    <view class="row {{item.rank <= 3 ? 'row-top' : ''}}" wx:for="{{groups[activeIdx].rows}}" wx:key="id">
+      <view class="c1">{{item.medal || item.rank}}</view>
+      <view class="c2">{{item.name}}</view>
+      <view class="c3">{{item.played}}</view>
+      <view class="c3">{{item.wins}}</view>
+      <view class="c3">{{item.losses}}</view>
+      <view class="c3 bold">{{item.points}}</view>
+      <view class="c3">{{item.ratioText}}</view>
+    </view>
+  </view>
+  <view class="empty" wx:if="{{!loading && !groups.length}}">暂无成绩。先在「比分录入」录入比分。</view>
+
+  <button class="btn-ghost end" wx:if="{{!isEnded}}" bindtap="endEvent">结束赛事，生成最终成绩</button>
 </view>

@@ -1,5 +1,55 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">数据看板</view>
-  <view class="stub-desc">报名看板 + 办赛流水线进度（PRD F11）。</view>
+<view class="page">
+  <view class="tabs">
+    <view class="tab {{tab === 'score' ? 'tab-active' : ''}}" data-tab="score" bindtap="onTab">比分录入</view>
+    <view class="tab {{tab === 'standings' ? 'tab-active' : ''}}" data-tab="standings" bindtap="onTab">积分概览</view>
+  </view>
+
+  <!-- 比分录入 -->
+  <block wx:if="{{tab === 'score'}}">
+    <view class="empty" wx:if="{{!grouped.length}}">暂无赛程。请先在「赛程编排」生成赛程。</view>
+    <block wx:for="{{grouped}}" wx:key="group" wx:for-item="g">
+      <view class="sec-title">{{g.group === 'A' && grouped.length === 1 ? '全部场次' : '小组 ' + g.group}}</view>
+
+      <view class="card m" wx:for="{{g.pending}}" wx:key="_id" wx:for-item="m2">
+        <view class="m-main">
+          <view class="m-teams">{{m2.teamAName}} vs {{m2.teamBName}}</view>
+          <view class="m-meta">场地{{(m2.court + 1)}} · 时段{{m2.slot + 1}} · {{m2.round}}</view>
+        </view>
+        <view class="m-btn" data-id="{{m2._id}}" catchtap="openScore">录入</view>
+      </view>
+
+      <view class="card m done" wx:for="{{g.done}}" wx:key="_id" wx:for-item="m2">
+        <view class="m-main">
+          <view class="m-teams">{{m2.teamAName}} vs {{m2.teamBName}}</view>
+          <view class="m-score">{{m2.scoreText}}</view>
+        </view>
+        <view class="m-reset" data-id="{{m2._id}}" catchtap="resetScore">更正</view>
+      </view>
+    </block>
+  </block>
+
+  <!-- 积分概览 -->
+  <block wx:if="{{tab === 'standings'}}">
+    <view class="card" wx:for="{{stadGroups}}" wx:key="group">
+      <view class="sg-title">{{item.group}} 组当前前三</view>
+      <view class="sg-top">{{item.top || '暂无比分'}}</view>
+    </view>
+    <button class="btn-ghost" bindtap="goStandingsPage">查看完整积分榜 →</button>
+  </block>
+
+  <!-- 比分录入浮层 -->
+  <view class="mask" wx:if="{{selMatch}}" bindtap="closeScore"></view>
+  <view class="sheet" wx:if="{{selMatch}}">
+    <view class="s-title">{{selMatch.teamAName}} vs {{selMatch.teamBName}}</view>
+    <view class="s-sub">{{selMatch.round}} · 共 {{selMatch.bestOf || bestOf}} 局制（完成获胜局数即可保存）</view>
+    <view class="set-row" wx:for="{{sets}}" wx:key="index" wx:for-index="i">
+      <view class="set-label">第{{i + 1}}局</view>
+      <input class="set-input" type="number" value="{{item.a}}" data-idx="{{i}}" data-side="a" bindinput="onSetInput" placeholder="A" />
+      <text class="colon">:</text>
+      <input class="set-input" type="number" value="{{item.b}}" data-idx="{{i}}" data-side="b" bindinput="onSetInput" placeholder="B" />
+    </view>
+    <button class="btn-primary" bindtap="saveScore" disabled="{{saving}}">{{saving ? '保存中…' : '保存比分'}}</button>
+    <button class="btn-wo" data-w="a" bindtap="walkover">A 队弃权（判 B 胜）</button>
+    <button class="btn-wo" data-w="b" bindtap="walkover">B 队弃权（判 A 胜）</button>
+  </view>
 </view>

@@ -14,7 +14,7 @@
   <view class="menu">
     <view class="cell" bindtap="goMyEvents">
       <view>我的赛事</view>
-      <view class="arrow">›</view>
+      <view class="arrow">{{eventCount}} 场 ›</view>
     </view>
     <view class="cell" bindtap="toggleFont">
       <view>大字号模式</view>

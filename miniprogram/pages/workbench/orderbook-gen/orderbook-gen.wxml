@@ -1,5 +1,42 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">秩序册生成</view>
-  <view class="stub-desc">主题/预览/PDF 导出（PRD F6.3-F6.4）。</view>
+<view class="page">
+  <view class="empty" wx:if="{{!loading && !data}}">暂无数据，请先完成建赛与报名</view>
+  <block wx:if="{{data}}">
+    <view class="card">
+      <view class="ob-title">{{data.event.name}}</view>
+      <view class="ob-meta">{{data.event.ballText}} · {{data.event.statusText}} · 创建于 {{data.event.createdAtText}}</view>
+      <view class="ob-meta" wx:if="{{data.event.regulation}}">
+        {{data.event.regulation.location}} {{data.event.regulation.dates}}
+        <block wx:if="{{data.event.regulation.organizer}}"> · 主办：{{data.event.regulation.organizer}}</block>
+      </view>
+    </view>
+
+    <view class="card">
+      <view class="sec">参赛队伍（{{data.teams.length}}）</view>
+      <view class="ob-team" wx:for="{{data.teams}}" wx:key="_id">{{index + 1}}. {{item.name}}<text wx:if="{{item.unit}}" class="ob-unit">{{item.unit}}</text></view>
+    </view>
+
+    <view class="card" wx:if="{{data.groups.length}}">
+      <view class="sec">分组（{{data.groups.length}} 组）</view>
+      <view class="ob-g" wx:for="{{data.groups}}" wx:key="name">
+        <view class="ob-gname">{{item.name}} 组</view>
+        <view class="ob-gteams">{{item.teamsText}}</view>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{data.matches.length}}">
+      <view class="sec">赛程（{{data.matches.length}} 场）</view>
+      <view class="ob-m" wx:for="{{data.matches}}" wx:key="_id">
+        <view class="ob-mteams">{{item.teamAName}} vs {{item.teamBName}}</view>
+        <view class="ob-mmeta">{{item.group}}组 {{item.round}} · 场地{{(item.court + 1)}} 时段{{item.slot + 1}}<block wx:if="{{item.scoreText}}"> · {{item.scoreText}}</block></view>
+      </view>
+    </view>
+
+    <view class="card" wx:if="{{data.notices.length}}">
+      <view class="sec">公告（{{data.notices.length}}）</view>
+      <view class="ob-n" wx:for="{{data.notices}}" wx:key="_id">
+        <view class="ob-ntitle">{{item.title || '公告'}}</view>
+        <view class="ob-ncontent">{{item.content}}</view>
+      </view>
+    </view>
+  </block>
 </view>

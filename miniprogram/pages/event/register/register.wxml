@@ -1,5 +1,31 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">报名</view>
-  <view class="stub-desc">队长/队员两段式报名（PRD F3.4）。</view>
+<view class="page">
+  <view class="card" wx:if="{{event}}">
+    <view class="r-name">{{event.name}} · {{event.statusText}}</view>
+    <view class="r-meta">已报名 {{teams.length}} 支队伍</view>
+  </view>
+
+  <view class="card">
+    <view class="sec">添加队伍</view>
+    <view class="f-row"><view class="f-label">队名 *</view><input class="f-input" value="{{form.name}}" data-field="name" bindinput="onInput" placeholder="队伍名称" /></view>
+    <view class="f-row"><view class="f-label">单位</view><input class="f-input" value="{{form.unit}}" data-field="unit" bindinput="onInput" placeholder="所属单位（用于同单位回避）" /></view>
+    <view class="f-row"><view class="f-label">联系人</view><input class="f-input" value="{{form.contact}}" data-field="contact" bindinput="onInput" placeholder="姓名" /></view>
+    <view class="f-row"><view class="f-label">联系方式</view><input class="f-input" value="{{form.captain}}" data-field="captain" bindinput="onInput" placeholder="手机号" /></view>
+    <view class="f-row"><view class="f-label">队员名单</view><input class="f-input" value="{{form.players}}" data-field="players" bindinput="onInput" placeholder="姓名，逗号分隔" /></view>
+    <button class="btn-primary" bindtap="addTeam">{{submitting ? '添加中…' : '添加队伍'}}</button>
+  </view>
+
+  <view class="sec-title">队伍列表（{{teams.length}}）</view>
+  <view class="empty" wx:if="{{!teams.length}}">还没有队伍，先在上方添加</view>
+  <view class="card team" wx:for="{{teams}}" wx:key="_id">
+    <view class="team-main">
+      <view class="team-name">{{index + 1}}. {{item.name}}</view>
+      <view class="team-sub">{{item.unit || '未填单位'}}<block wx:if="{{item.contact}}"> · {{item.contact}}</block></view>
+    </view>
+    <view class="team-del" data-id="{{item._id}}" catchtap="removeTeam">删除</view>
+  </view>
+
+  <block wx:if="{{event && (event.status === 'cfg' || event.status === 'reg' || event.status === 'draft')}}">
+    <button class="btn-primary" bindtap="finishRegistration">完成报名，进入抽签</button>
+  </block>
+  <button class="btn-ghost go" bindtap="goDraw" wx:else>去抽签 →</button>
 </view>

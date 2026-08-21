@@ -1,40 +1,27 @@
 <view class="page">
-  <view class="head">
-    <view class="head-actions">
-      <view class="new-btn" bindtap="goCreate">＋ 新建赛事</view>
-      <view class="dash-btn" bindtap="goDashboard">数据看板</view>
-    </view>
+  <view class="card" bindtap="goCreate">
+    <view class="row-title" style="color:#2f54eb; font-weight:600;">＋ 新建赛事（一句话建赛）</view>
   </view>
 
-  <view class="section-title">办赛流水线</view>
-  <view class="steps">
+  <view class="sec-title">选择赛事</view>
+  <scroll-view scroll-x class="ev-scroll">
     <view
-      class="step card"
-      wx:for="{{steps}}"
-      wx:key="key"
-      data-path="{{item.path}}"
-      bindtap="onStepTap"
-    >
-      <view class="step-idx">{{index + 1}}</view>
-      <view class="step-body">
-        <view class="step-name">{{item.name}}</view>
-        <view class="step-desc">{{item.desc}}</view>
-      </view>
-      <view class="step-arrow">›</view>
-    </view>
-  </view>
-
-  <view wx:if="{{events.length}}">
-    <view class="section-title">我举办的赛事</view>
-    <view
-      class="card event-item"
+      class="ev-chip {{activeEventId === item._id ? 'ev-chip-active' : ''}}"
       wx:for="{{events}}"
       wx:key="_id"
       data-id="{{item._id}}"
-      bindtap="goDetail"
-    >
-      <view class="event-name">{{item.name}}</view>
-      <view class="event-meta">{{item.statusText}}</view>
-    </view>
+      bindtap="onEventSelect"
+    >{{item.name}}</view>
+    <view class="empty-inline" wx:if="{{!events.length}}">暂无赛事，先新建一个</view>
+  </scroll-view>
+
+  <view class="sec-title">
+    {{activeEvent ? activeEvent.name + ' · ' + activeEvent.statusText : '流程步骤'}}
+    <text class="link" wx:if="{{activeEvent}}" bindtap="goDetail">赛事主页 →</text>
+  </view>
+
+  <view class="card step" wx:for="{{steps}}" wx:key="key" data-path="{{item.path}}" bindtap="onStepTap">
+    <view class="step-name">{{item.name}}</view>
+    <view class="step-desc">{{item.desc}}</view>
   </view>
 </view>

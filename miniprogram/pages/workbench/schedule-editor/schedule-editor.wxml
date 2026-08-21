@@ -1,5 +1,22 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">编排工作台</view>
-  <view class="stub-desc">智能编排 + 冲突检测 + 手动调整（PRD F5.2-F5.4）。</view>
+<view class="page">
+  <button class="btn-primary" bindtap="generate">{{loading ? '生成中…' : '生成赛程（贝格尔循环 + 自动排场）'}}</button>
+  <view class="summary" wx:if="{{summary}}">{{summary}}</view>
+
+  <view class="empty" wx:if="{{!loading && !grouped.length}}">尚未生成赛程。完成后将按「场地 + 时段」自动排布，同一队伍不连场。</view>
+
+  <block wx:for="{{grouped}}" wx:key="group" wx:for-item="grp">
+    <view class="sec-title">{{grp.group === 'A' && grouped.length === 1 ? '全部场次' : '小组 ' + grp.group}}</view>
+    <view class="card round" wx:for="{{grp.rounds}}" wx:key="round" wx:for-item="rd">
+      <view class="r-title">{{rd.round}}</view>
+      <view class="m" wx:for="{{rd.matches}}" wx:key="_id">
+        <view class="m-left">
+          <view class="m-teams">{{item.teamAName}} <text class="vs">vs</text> {{item.teamBName}}</view>
+          <view class="m-meta">{{item.status === 'done' ? '已结束 ' + item.scoreText : '待赛'}} · 场地{{(item.court + 1)}} · 时段{{item.slot + 1}}</view>
+        </view>
+        <view class="tag {{item.status === 'done' ? 'tag-blue' : 'tag-gray'}}">{{item.status === 'done' ? '✓' : '待赛'}}</view>
+      </view>
+    </view>
+  </block>
+
+  <button class="btn-ghost go" wx:if="{{grouped.length}}" bindtap="goScore">下一步：录入比分 →</button>
 </view>

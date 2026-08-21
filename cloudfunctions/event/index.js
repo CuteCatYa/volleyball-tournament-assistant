@@ -1,6 +1,6 @@
 /**
- * event：赛事 CRUD（P0 骨架）。
- * 权限：仅创建者可写；状态机见 PRD §8 events 集合。
+ * event：赛事 CRUD + 状态机推进（P0 全流程）。
+ * 状态线：draft → cfg → reg → draw → sched → ongoing → ended（只前进）。
  */
 'use strict';
 
@@ -10,6 +10,7 @@ const db = cloud.database();
 const { getBallType } = require('./core/rules');
 
 const VALID_STATUS = ['draft', 'cfg', 'reg', 'draw', 'sched', 'ongoing', 'ended', 'archived'];
+const ORDER = ['draft', 'cfg', 'reg', 'draw', 'sched', 'ongoing', 'ended', 'archived'];
 
 exports.main = async (event = {}) => {
   const { OPENID } = cloud.getWXContext();
@@ -25,8 +26,8 @@ exports.main = async (event = {}) => {
         ballType: payload.ballType || 'air',
         bestOf: payload.bestOf || ball.defaultBestOf,
         groups: payload.groups || [],
-        // AI 一句话建赛的草稿卡：teams/days/courts/top/mode 等
         config: cfg,
+        regulation: payload.regulation || null,
         status: 'draft',
         creator: OPENID,
         createdAt: Date.now(),
@@ -52,16 +53,32 @@ exports.main = async (event = {}) => {
 
     if (action === 'update') {
       const patch = {};
-      const allowed = ['name', 'ballType', 'bestOf', 'groups', 'status', 'location', 'dates', 'config'];
+      const allowed = ['name', 'ballType', 'bestOf', 'groups', 'status', 'location', 'dates', 'config', 'regulation'];
       for (const k of allowed) if (payload[k] !== undefined) patch[k] = payload[k];
       if (patch.status && !VALID_STATUS.includes(patch.status)) {
         return { code: 1, msg: `非法状态: ${payload.status}` };
       }
-      // 权限校验：仅创建者
       const cur = await db.collection('events').doc(payload.id).get();
       if (cur.data.creator !== OPENID) return { code: 403, msg: '无权限' };
-      await db.collection('events').doc(payload.id).update({ data: { ...patch, updatedAt: Date.now() } });
+      // regulation/config/groups 可能为 null 或已存在：整体替换，避免 null 上建字段失败
+      const safe = {};
+      if (patch.regulation !== undefined) safe.regulation = db.command.set(patch.regulation);
+      if (patch.config !== undefined) safe.config = db.command.set(patch.config);
+      for (const k of allowed) if (safe[k] === undefined && patch[k] !== undefined) safe[k] = patch[k];
+      await db.collection('events').doc(payload.id).update({ data: { ...safe, updatedAt: Date.now() } });
       return { code: 0, data: { updated: true } };
+    }
+
+    if (action === 'advance') {
+      const target = payload.status;
+      if (!VALID_STATUS.includes(target)) return { code: 1, msg: `非法状态: ${target}` };
+      const cur = await db.collection('events').doc(payload.id).get();
+      if (cur.data.creator !== OPENID) return { code: 403, msg: '无权限' };
+      const ci = ORDER.indexOf(cur.data.status);
+      const ti = ORDER.indexOf(target);
+      if (ti < ci) return { code: 1, msg: '状态不可回退' };
+      await db.collection('events').doc(payload.id).update({ data: { status: target, updatedAt: Date.now() } });
+      return { code: 0, data: { status: target } };
     }
 
     return { code: 1, msg: `未知 action: ${action}` };

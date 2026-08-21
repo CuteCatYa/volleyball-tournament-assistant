@@ -1,5 +1,13 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">赛程</view>
-  <view class="stub-desc">场地/队伍/轮次三视图赛程（PRD F5.6）。</view>
+<view class="page">
+  <view class="empty" wx:if="{{!loading && !grouped.length}}">赛程尚未生成</view>
+  <block wx:for="{{grouped}}" wx:key="group" wx:for-item="grp">
+    <view class="sec-title">{{grp.group === 'A' && grouped.length === 1 ? '全部场次' : '小组 ' + grp.group}}</view>
+    <view class="card round" wx:for="{{grp.rounds}}" wx:key="round" wx:for-item="rd">
+      <view class="r-title">{{rd.round}}</view>
+      <view class="m" wx:for="{{rd.matches}}" wx:key="_id">
+        <view class="m-teams">{{item.teamAName}} vs {{item.teamBName}}</view>
+        <view class="m-meta">{{item.status === 'done' ? '已结束 ' + item.scoreText : '待赛'}} · 场地{{(item.court + 1)}} · 时段{{item.slot + 1}}</view>
+      </view>
+    </view>
+  </block>
 </view>

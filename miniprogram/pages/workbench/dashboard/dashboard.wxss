@@ -1,4 +1,25 @@
-.stub { padding: 80rpx 48rpx; text-align: center; }
-.stub-badge { display: inline-block; padding: 8rpx 24rpx; border-radius: 999rpx; background: #eef1ff; color: #2f54eb; font-size: 22rpx; }
-.stub-title { margin-top: 32rpx; font-size: 40rpx; font-weight: 700; }
-.stub-desc { margin-top: 16rpx; font-size: 26rpx; color: #8a8f99; line-height: 1.6; }
+.page { padding: 24rpx; padding-bottom: 80rpx; }
+.tabs { display: flex; margin-bottom: 16rpx; }
+.tab { flex: 1; text-align: center; padding: 20rpx 0; background: #fff; font-size: 28rpx; color: #5f6572; border-radius: 16rpx; margin-right: 16rpx; }
+.tab:last-child { margin-right: 0; }
+.tab-active { background: #2f54eb; color: #fff; font-weight: 600; }
+.sec-title { margin: 24rpx 8rpx 8rpx; font-size: 28rpx; font-weight: 600; color: #5f6572; }
+.empty { text-align: center; color: #b0b4bf; font-size: 26rpx; padding: 80rpx 24rpx; }
+.m { display: flex; align-items: center; justify-content: space-between; }
+.m-teams { font-size: 30rpx; font-weight: 600; }
+.m-meta { margin-top: 4rpx; font-size: 22rpx; color: #8a8f99; }
+.m-btn { background: #2f54eb; color: #fff; padding: 12rpx 32rpx; border-radius: 999rpx; font-size: 26rpx; }
+.m-reset { color: #f5222d; font-size: 26rpx; padding: 12rpx 16rpx; }
+.m-score { margin-top: 4rpx; font-size: 24rpx; color: #52c41a; font-weight: 600; }
+.done .m-teams { color: #8a8f99; }
+.btn-ghost { margin-top: 16rpx; background: #fff; color: #2f54eb; border: 2rpx solid #2f54eb; border-radius: 999rpx; font-size: 28rpx; }
+.mask { position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 10; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; background: #fff; border-radius: 24rpx 24rpx 0 0; padding: 32rpx; z-index: 11; }
+.s-title { font-size: 34rpx; font-weight: 700; }
+.s-sub { margin: 8rpx 0 16rpx; font-size: 24rpx; color: #8a8f99; }
+.set-row { display: flex; align-items: center; padding: 12rpx 0; }
+.set-label { width: 110rpx; font-size: 26rpx; color: #5f6572; }
+.set-input { flex: 1; background: #f5f6fa; border-radius: 12rpx; padding: 16rpx; text-align: center; font-size: 32rpx; }
+.colon { margin: 0 16rpx; font-size: 28rpx; color: #8a8f99; }
+.btn-primary { margin-top: 16rpx; background: #2f54eb; color: #fff; border-radius: 999rpx; font-size: 30rpx; font-weight: 600; }
+.btn-wo { margin-top: 12rpx; background: #fff; color: #f5222d; border: 2rpx solid #f5222d; border-radius: 999rpx; font-size: 26rpx; }

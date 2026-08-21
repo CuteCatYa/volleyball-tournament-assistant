@@ -1,4 +1,18 @@
-.stub { padding: 80rpx 48rpx; text-align: center; }
-.stub-badge { display: inline-block; padding: 8rpx 24rpx; border-radius: 999rpx; background: #eef1ff; color: #2f54eb; font-size: 22rpx; }
-.stub-title { margin-top: 32rpx; font-size: 40rpx; font-weight: 700; }
-.stub-desc { margin-top: 16rpx; font-size: 26rpx; color: #8a8f99; line-height: 1.6; }
+.page { padding: 24rpx; padding-bottom: 80rpx; }
+.empty { text-align: center; color: #b0b4bf; font-size: 26rpx; padding: 80rpx 24rpx; }
+.ob-title { font-size: 36rpx; font-weight: 700; }
+.ob-meta { margin-top: 8rpx; font-size: 24rpx; color: #8a8f99; }
+.sec { font-size: 28rpx; font-weight: 700; margin-bottom: 12rpx; }
+.ob-team { font-size: 28rpx; padding: 8rpx 0; }
+.ob-unit { margin-left: 16rpx; font-size: 22rpx; color: #8a8f99; }
+.ob-g { margin-bottom: 16rpx; }
+.ob-gname { font-size: 28rpx; font-weight: 600; }
+.ob-gteams { margin-top: 4rpx; font-size: 26rpx; color: #5f6572; }
+.ob-m { padding: 12rpx 0; border-top: 1rpx solid #f0f1f5; }
+.ob-m:first-child { border-top: none; }
+.ob-mteams { font-size: 28rpx; font-weight: 600; }
+.ob-mmeta { margin-top: 2rpx; font-size: 22rpx; color: #8a8f99; }
+.ob-n { padding: 12rpx 0; border-top: 1rpx solid #f0f1f5; }
+.ob-n:first-child { border-top: none; }
+.ob-ntitle { font-size: 28rpx; font-weight: 600; }
+.ob-ncontent { margin-top: 4rpx; font-size: 24rpx; color: #5f6572; }

@@ -1,30 +1,20 @@
 <view class="page">
   <view class="hero">
     <view class="hero-title">排球办赛助手</view>
-    <view class="hero-sub">从发规程到出成绩 · AI 办赛工作台</view>
-    <view class="hero-actions">
-      <view class="hero-btn" bindtap="goCreate">＋ 开始办赛</view>
-      <view class="hero-btn ghost" bindtap="goChat">问 AI 客服</view>
-    </view>
+    <view class="hero-sub">建赛 → 规程 → 报名 → 抽签 → 赛程 → 记分 → 成绩，微信内全程办赛</view>
+    <view class="hero-btn" bindtap="goCreate">＋ 新建赛事</view>
   </view>
 
-  <view wx:if="{{myEvents.length}}">
-    <view class="section-title">我的赛事</view>
-    <view
-      class="card event-item"
-      wx:for="{{myEvents}}"
-      wx:key="_id"
-      data-id="{{item._id}}"
-      bindtap="goDetail"
-    >
+  <view class="sec-title">我的赛事（{{myEvents.length}}）</view>
+  <view class="empty" wx:if="{{!loading && !myEvents.length}}">
+    还没有赛事，点上方「新建赛事」用一句话开始办赛
+  </view>
+  <view class="card event-card" wx:for="{{myEvents}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDetail">
+    <view class="event-top">
       <view class="event-name">{{item.name}}</view>
-      <view class="event-meta">{{item.statusText}} · {{item.teamCount || 0}} 队 · {{item.ballName}}</view>
+      <view class="tag {{item.status === 'ended' ? 'tag-gray' : 'tag-blue'}}">{{item.statusText}}</view>
     </view>
-  </view>
-
-  <view class="empty" wx:else>
-    <view class="empty-title">还没有赛事</view>
-    <view class="empty-sub">点「开始办赛」，5 分钟搭好一场球赛</view>
-    <view class="empty-btn" bindtap="goCreate">去办赛</view>
+    <view class="event-sub">球种/局制已定 · {{item.teamCount || 0}} 队报名</view>
+    <view class="event-step">下一步：{{item.stepName}} →</view>
   </view>
 </view>

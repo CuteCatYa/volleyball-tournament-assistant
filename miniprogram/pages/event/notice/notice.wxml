@@ -1,5 +1,8 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">竞赛规程</view>
-  <view class="stub-desc">结构化规程展示与在线确认责任书（PRD F2.4）。</view>
+<view class="page">
+  <view class="empty" wx:if="{{!list.length}}">暂无公告</view>
+  <view class="card" wx:for="{{list}}" wx:key="_id">
+    <view class="n-title">{{item.title}}</view>
+    <view class="n-content">{{item.content}}</view>
+    <view class="n-meta">{{item.timeText}}</view>
+  </view>
 </view>

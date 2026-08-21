@@ -1,5 +1,32 @@
-<view class="stub">
-  <view class="stub-badge">P0 骨架</view>
-  <view class="stub-title">抽签工作台</view>
-  <view class="stub-desc">模式选择/种子设置/发起仪式（PRD F4.1-F4.4）。</view>
+<view class="page">
+  <view class="card">
+    <view class="sec">抽签设置</view>
+    <view class="f-row">
+      <view class="f-label">分组数</view>
+      <picker mode="selector" range="{{[1,2,3,4,5,6,7,8]}}" bindchange="onGroupCount">
+        <view class="f-picker">{{groupCount}} 组 ▾</view>
+      </picker>
+    </view>
+    <view class="f-row">
+      <view class="f-label">抽签方式</view>
+      <picker mode="selector" range="{{modes}}" bindchange="onMode">
+        <view class="f-picker">{{mode === 'seeded' ? '种子分档蛇形' : '全随机'}} ▾</view>
+      </picker>
+    </view>
+    <view class="f-row"><view class="f-label">参赛队伍</view><view class="f-value">{{teams.length}} 支</view></view>
+    <button class="btn-primary" bindtap="runDraw">{{loading ? '抽签中…' : '开始抽签'}}</button>
+  </view>
+
+  <view class="warn" wx:if="{{drawResult && drawResult.conflicts.length}}">
+    ⚠️ 存在同单位同组：{{drawResult.conflicts.length}} 处（可在报名时核对单位，或分档后重抽）
+  </view>
+
+  <view class="sec-title">抽签结果</view>
+  <view class="empty" wx:if="{{!drawResult}}">尚未抽签。抽签为服务端安全随机，全程留痕可审计。</view>
+  <view class="card group" wx:for="{{drawResult.groups}}" wx:for-item="g" wx:key="name">
+    <view class="g-name">{{g.name}} 组（{{g.teams.length}} 队）</view>
+    <view class="g-team" wx:for="{{g.teams}}" wx:key="id">{{index + 1}}. {{item.name}}<text wx:if="{{item.unit}}" class="g-unit">{{item.unit}}</text></view>
+  </view>
+
+  <button class="btn-ghost go" wx:if="{{drawResult}}" bindtap="goSchedule">下一步：生成赛程 →</button>
 </view>

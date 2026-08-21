@@ -1,7 +1,5 @@
 /**
- * document：秩序册/成绩册生成（PRD §4.6/§4.8）。
- * P0 骨架：异步队列化生成入口 + 状态查询。数据区（名单/赛程/积分）由模板渲染，零错误；
- * 封面/寄语走 ai-gateway（A3，AI 表达）。
+ * document：秩序册数据聚合 + 生成队列（P0：页面内秩序册实时渲染；PDF 待接入）。
  */
 'use strict';
 
@@ -15,22 +13,35 @@ exports.main = async (event = {}) => {
   const payload = event.payload || {};
 
   try {
+    if (action === 'orderbookData') {
+      const { eventId } = payload;
+      const evRes = await db.collection('events').doc(eventId).get();
+      const teamsRes = await db.collection('teams').where({ eventId, status: 'approved' }).orderBy('createdAt', 'asc').limit(200).get();
+      const drawRes = await db.collection('groups').where({ eventId }).orderBy('createdAt', 'desc').limit(1).get();
+      const mRes = await db.collection('matches').where({ eventId }).orderBy('seq', 'asc').limit(300).get();
+      const nRes = await db.collection('notices').where({ eventId }).orderBy('createdAt', 'desc').limit(20).get();
+      return {
+        code: 0,
+        data: {
+          event: evRes.data,
+          teams: teamsRes.data,
+          groups: (drawRes.data[0] && drawRes.data[0].groups) || [],
+          matches: mRes.data,
+          notices: nRes.data,
+        },
+      };
+    }
+
     if (action === 'generate') {
       const doc = {
         eventId: payload.eventId,
-        kind: payload.kind || 'orderbook', // orderbook | result
+        kind: payload.kind || 'orderbook',
         status: 'pending',
         operator: OPENID,
         createdAt: Date.now(),
       };
       const res = await db.collection('orders').add({ data: doc });
-      // 真实实现：入队 → 云函数渲染模板 → 云存储 PDF → 更新 orders.status=ready + fileID
-      return { code: 0, data: { id: res._id, status: 'pending', note: 'P0 骨架：已入队，PDF 渲染待接入' } };
-    }
-
-    if (action === 'status') {
-      const res = await db.collection('orders').doc(payload.id).get();
-      return { code: 0, data: res.data };
+      return { code: 0, data: { id: res._id, status: 'pending', note: '页面内魔板渲染已可用；PDF 导出待接入' } };
     }
 
     return { code: 1, msg: `未知 action: ${action}` };

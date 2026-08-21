@@ -5,10 +5,21 @@ Page({
   data: {
     openid: '',
     phone: '',
+    eventCount: 0,
   },
 
   onShow() {
     this.setData({ openid: store.get('openid') });
+    this.loadEventCount();
+  },
+
+  async loadEventCount() {
+    try {
+      const res = await cloud.call('event', 'list', {});
+      this.setData({ eventCount: (res.list || []).length });
+    } catch (e) {
+      /* 静默 */
+    }
   },
 
   async getPhone(e) {
@@ -28,7 +39,6 @@ Page({
   },
 
   toggleFont() {
-    // 适老大字号：切换全局 body class 由 page 根节点承载（演示占位）
     wx.showToast({ title: '大字号模式（P1 完善）', icon: 'none' });
   },
 });
