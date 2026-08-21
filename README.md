@@ -43,12 +43,13 @@
 
 - ✅ 登录闭环：`login.getOpenId` → 写 `users` → 返回 openid/userId
 - ✅ 一句话建赛闭环：输入描述 → `ai-gateway.parse`（中文数字归一 + 正则，含局制/分组/赛制识别）→ 可编辑草稿卡 → `event.create`（携带 config 草稿）→ 赛事主页枢纽
+- ✅ **混元真实调用**：`ai-gateway` 走云开发官方 AI 能力（`@cloudbase/node-sdk` → `createModel('cloudbase').generateText({model:'hy3'})`），云函数内隐式鉴权、无需密钥；实测 `aiFlag:true / degraded:false`
 - ✅ 编排/积分引擎云端验证：`schedule.generate`（4 队单循环零冲突排程）、`score.standings`（气排球 2-1-0 积分）
-- ✅ 规则问答降级：弃权判罚 / 同单位回避 / 积分口径内置知识回答
+- ✅ 规则问答降级：模型失败/未开启时自动回落内置知识回答（弃权判罚 / 同单位回避 / 积分口径）
 
 ## 待办（下一步）
 
-- [ ] 启用混元大模型：复制 `cloudfunctions/ai-gateway/llm-config.example.js` 为 `llm-config.js`，填入腾讯云 SecretId/SecretKey（CAM → API 密钥管理），`enabled: true` 后重新部署（未填密钥时自动降级本地解析，功能不中断）
+- [x] 接入混元大模型：已改用云开发官方 AI 能力（体验模型 `hy3`，控制台 → AI → 生文模型 开开关即可）。`ai-gateway` 云函数超时需在控制台调到 ≥60 秒
 - [ ] 填写订阅消息模板 ID（`miniprogram/utils/subscribe.js`）
 - [ ] 秩序册 PDF 渲染（`cloudfunctions/document`）
 - [ ] 补齐各 P0 桩页面业务逻辑（规程编辑器、审核、编排工作台等）
