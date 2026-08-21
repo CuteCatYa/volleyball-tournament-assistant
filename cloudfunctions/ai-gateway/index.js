@@ -177,7 +177,8 @@ function normalizeNums(text) {
 }
 
 function parseBuildEvent(rawText) {
-  const text = normalizeNums(rawText);
+  const raw = String(rawText || '');
+  const text = normalizeNums(raw);
 
   const teamMatch =
     text.match(/(\d+)\s*(?:支|个)?\s*队伍?/) ||
@@ -196,8 +197,9 @@ function parseBuildEvent(rawText) {
   else if (/气排球/.test(text)) ballType = 'air';
 
   let bestOf = null;
-  if (/五局三胜|五局/.test(text)) bestOf = 5;
-  else if (/三局两胜|三局/.test(text)) bestOf = 3;
+  // 局制关键词含中文数字（五局三胜），须在归一化前的原文上匹配
+  if (/五局三胜|五局/.test(raw)) bestOf = 5;
+  else if (/三局两胜|三局/.test(raw)) bestOf = 3;
 
   let mode = null;
   if (/淘汰|交叉/.test(text)) mode = '分组循环+交叉淘汰';
