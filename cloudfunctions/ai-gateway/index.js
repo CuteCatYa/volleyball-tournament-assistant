@@ -3,128 +3,59 @@
  *
  * 原则：AI 表达 / 引擎事实（PRD §5.2）。
  *   - 本函数只生成"表达"（解析草稿 / 答疑文案），一切事实计算交给 core 引擎；
- *   - MODEL_ENABLED=false（默认）时走本地降级：正则解析 + 内置知识回复；
- *   - MODEL_ENABLED=true 且配置了密钥时走腾讯云混元（Hunyuan，TC3-HMAC-SHA256 签名）。
- *
- * llm-config.js 为本地密钥配置（已 gitignore），缺失时自动按"未配置"处理。
+ *   - 模型走云开发官方 AI 能力（@cloudbase/node-sdk），云函数内隐式鉴权、无需密钥；
+ *     需先在「云开发控制台 → AI → 生文模型」开启模型开关（当前体验模型 hy3）。
+ *   - 模型失败 / 未开启时自动降级本地正则解析，功能不中断（PRD §5.2）。
  */
 'use strict';
 
 const cloud = require('wx-server-sdk');
-const crypto = require('crypto');
-const https = require('https');
-
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
+
+const tcb = require('@cloudbase/node-sdk');
 
 /* ---------------- 模型配置 ---------------- */
 
-let LLM_CONFIG = { enabled: false };
+let LLM_CONFIG = { enabled: true, provider: 'cloudbase', model: 'hy3' };
 try {
   // eslint-disable-next-line global-require
-  LLM_CONFIG = require('./llm-config') || LLM_CONFIG;
+  LLM_CONFIG = Object.assign(LLM_CONFIG, require('./llm-config'));
 } catch (e) {
-  /* 未提供 llm-config.js 时按未配置处理 */
+  /* 未提供 llm-config.js 时用默认配置 */
 }
 
 const MODEL_ENABLED = !!LLM_CONFIG.enabled;
+
+// 云函数内使用 @cloudbase/node-sdk：只传 env，凭云函数运行态隐式鉴权
+const ENV_ID =
+  LLM_CONFIG.envId ||
+  (process.env.TCB_ENV || process.env.SCF_NAMESPACE || 'cloud1-d2gmj68gz398aa12c');
+
+const tcbApp = tcb.init({ env: ENV_ID, timeout: 60000 });
 
 const SYSTEM_PROMPT = [
   '你是排球赛事办赛助手，基于 FIVB 规则与气排球竞赛规则回答办赛问题。',
   '回答简洁、分点，不确定的内容明确说明；涉及"同单位回避、名次录取、弃权判罚"等规则以 PRD 口径为准。',
 ].join('\n');
 
-/* ---------------- 混元调用（TC3-HMAC-SHA256） ---------------- */
+/* ---------------- 模型调用（云开发官方 AI SDK） ---------------- */
 
-function sha256hex(s) {
-  return crypto.createHash('sha256').update(s).digest('hex');
-}
-
-function hmacBuf(key, msg) {
-  return crypto.createHmac('sha256', key).update(msg).digest();
-}
-
-function callHunyuan(userContent) {
-  return new Promise((resolve, reject) => {
-    const host = 'hunyuan.tencentcloudapi.com';
-    const service = 'hunyuan';
-    const action = 'ChatCompletions';
-    const version = '2023-09-01';
-    const timestamp = Math.floor(Date.now() / 1000);
-    const date = new Date(timestamp * 1000).toISOString().slice(0, 10);
-
-    const payload = JSON.stringify({
-      Model: LLM_CONFIG.model || 'hunyuan-large',
-      Messages: [
-        { Role: 'system', Content: SYSTEM_PROMPT },
-        { Role: 'user', Content: userContent },
-      ],
-      Stream: false,
-    });
-
-    const canonicalHeaders =
-      `content-type:application/json; charset=utf-8\n` +
-      `host:${host}\n` +
-      `x-tc-action:${action.toLowerCase()}\n`;
-    const signedHeaders = 'content-type;host;x-tc-action';
-    const canonicalRequest = [
-      'POST',
-      '/',
-      '',
-      canonicalHeaders,
-      signedHeaders,
-      sha256hex(payload),
-    ].join('\n');
-    const credentialScope = `${date}/${service}/tc3_request`;
-    const stringToSign = [
-      'TC3-HMAC-SHA256',
-      String(timestamp),
-      credentialScope,
-      sha256hex(canonicalRequest),
-    ].join('\n');
-    const kDate = hmacBuf(`TC3${LLM_CONFIG.secretKey}`, date);
-    const kService = hmacBuf(kDate, service);
-    const kSigning = hmacBuf(kService, 'tc3_request');
-    const signature = hmacBuf(kSigning, stringToSign).toString('hex');
-    const authorization =
-      `TC3-HMAC-SHA256 Credential=${LLM_CONFIG.secretId}/${credentialScope}, ` +
-      `SignedHeaders=${signedHeaders}, Signature=${signature}`;
-
-    const req = https.request(
-      {
-        host,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-          Host: host,
-          Authorization: authorization,
-          'X-TC-Action': action,
-          'X-TC-Version': version,
-          'X-TC-Timestamp': String(timestamp),
-        },
-      },
-      (res) => {
-        let body = '';
-        res.on('data', (c) => (body += c));
-        res.on('end', () => {
-          try {
-            const json = JSON.parse(body);
-            if (json.Response && json.Response.Error) {
-              return reject(new Error(json.Response.Error.Message));
-            }
-            const choice =
-              json.Response && json.Response.Choices && json.Response.Choices[0];
-            resolve((choice && choice.Message && choice.Message.Content) || '');
-          } catch (e) {
-            reject(e);
-          }
-        });
-      }
-    );
-    req.on('error', reject);
-    req.setTimeout(20000, () => req.destroy(new Error('模型调用超时')));
-    req.write(payload);
-    req.end();
+async function callModel(userContent) {
+  const ai = tcbApp.ai();
+  const model = ai.createModel(LLM_CONFIG.provider || 'cloudbase');
+  const result = await model.generateText({
+    model: LLM_CONFIG.model || 'hy3',
+    messages: [
+      { role: 'system', content: SYSTEM_PROMPT },
+      { role: 'user', content: userContent },
+    ],
   });
+  if (result && result.error) {
+    throw new Error(
+      typeof result.error === 'string' ? result.error : JSON.stringify(result.error)
+    );
+  }
+  return (result && result.text) || '';
 }
 
 /** 从模型输出中稳妥地抽取 JSON 对象 */
@@ -311,7 +242,7 @@ exports.main = async (event = {}) => {
 
       if (MODEL_ENABLED) {
         try {
-          const out = await callHunyuan(buildParsePrompt(text));
+          const out = await callModel(buildParsePrompt(text));
           const obj = extractJson(out);
           if (obj) {
             const parsed = {
@@ -346,7 +277,7 @@ exports.main = async (event = {}) => {
       const text = payload.text || '';
       if (MODEL_ENABLED) {
         try {
-          const out = await callHunyuan(text);
+          const out = await callModel(text);
           return {
             code: 0,
             data: { answer: out, refs: [], aiFlag: true, degraded: false },
